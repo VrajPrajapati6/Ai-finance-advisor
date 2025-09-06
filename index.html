@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Finance Advisor - Your Personal Financial Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-robot"></i>
+                <span>AI Finance Advisor</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-chart-pie"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#budget" class="nav-link" data-section="budget">
+                        <i class="fas fa-wallet"></i>
+                        Budget
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#goals" class="nav-link" data-section="goals">
+                        <i class="fas fa-bullseye"></i>
+                        Goals
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#analytics" class="nav-link" data-section="analytics">
+                        <i class="fas fa-chart-line"></i>
+                        Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#ai-assistant" class="nav-link" data-section="ai-assistant">
+                        <i class="fas fa-comments"></i>
+                        AI Assistant
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <h1 class="section-title">Financial Dashboard</h1>
+                
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Total Balance</h3>
+                            <p class="amount" id="totalBalance">$0.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Monthly Income</h3>
+                            <p class="amount" id="monthlyIncome">$0.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Monthly Expenses</h3>
+                            <p class="amount" id="monthlyExpenses">$0.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Savings Rate</h3>
+                            <p class="amount" id="savingsRate">0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-chart-pie"></i> Expense Analysis</h3>
+                        <div class="chart-container">
+                            <canvas id="expenseChart"></canvas>
+                        </div>
+                        <div class="expense-insights" id="expenseInsights">
+                            </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-chart-line"></i> Monthly Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                        <div class="trend-analysis" id="trendAnalysis">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-wallet"></i> Budget vs Actual</h3>
+                        <div class="budget-comparison" id="budgetComparison">
+                            <div class="no-data">Add transactions to see budget comparison</div>
+                        </div>
+                        <div class="budget-categories" id="budgetCategories">
+                            </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-bullseye"></i> Goals Progress</h3>
+                        <div class="goals-summary" id="goalsSummary">
+                            <div class="no-data">No goals set yet. Create your first financial goal!</div>
+                        </div>
+                        <div class="goals-progress" id="goalsProgress">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-calendar-alt"></i> Yearly Analysis (2025)</h3>
+                        <div class="chart-container">
+                            <canvas id="yearlyChart"></canvas>
+                        </div>
+                        <div class="yearly-insights" id="yearlyInsights">
+                            </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-receipt"></i> Recent Transactions</h3>
+                        <div class="transactions-list" id="recentTransactions">
+                            <div class="no-data">No transactions yet. Add some to get started!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="action-btn" onclick="showSection('budget')">
+                                <i class="fas fa-plus"></i>
+                                Add Transaction
+                            </button>
+                            <button class="action-btn" onclick="showSection('goals')">
+                                <i class="fas fa-bullseye"></i>
+                                Set Goal
+                            </button>
+                            <button class="action-btn" onclick="showSection('ai-assistant')">
+                                <i class="fas fa-robot"></i>
+                                Ask AI
+                            </button>
+                            <button class="action-btn" onclick="clearAllData()" style="background: #fee2e2; color: #dc2626; border-color: #fecaca;">
+                                <i class="fas fa-trash"></i>
+                                Clear All Data
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <h3><i class="fas fa-chart-bar"></i> Monthly Breakdown</h3>
+                        <div class="monthly-breakdown" id="monthlyBreakdown">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="budget" class="section">
+            <div class="container">
+                <h1 class="section-title">Budget Management</h1>
+                
+                <div class="budget-grid">
+                    <div class="budget-card">
+                        <h3>Import Transactions</h3>
+                        <div class="csv-upload-section">
+                            <div class="upload-area" id="uploadArea">
+                                <div class="upload-content">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <h4>Upload CSV File</h4>
+                                    <p>Drag and drop your CSV file here or click to browse</p>
+                                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+                                    <button type="button" class="btn-secondary" onclick="document.getElementById('csvFileInput').click()">
+                                        Choose File
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="csv-format-info">
+                                <h5>CSV Format Requirements:</h5>
+                                <p>Your CSV should have these columns:</p>
+                                <ul>
+                                    <li><strong>date</strong> - Transaction date (DD-MM-YYYY)</li>
+                                    <li><strong>type</strong> - "income" or "expense"</li>
+                                    <li><strong>amount</strong> - Transaction amount (numbers only)</li>
+                                    <li><strong>category</strong> - Transaction category</li>
+                                    <li><strong>description</strong> - Transaction description</li>
+                                </ul>
+                                <div class="csv-example">
+                                    <strong>Example:</strong><br>
+                                    <code>15-01-2025,income,5000,salary,Monthly Salary</code><br>
+                                    <code>16-01-2025,expense,50,food,Grocery Shopping</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="budget-card">
+                        <h3>Add Transaction</h3>
+                        <form id="transactionForm" class="transaction-form">
+                            <div class="form-group">
+                                <label for="transactionType">Type</label>
+                                <select id="transactionType" required>
+                                    <option value="income">Income</option>
+                                    <option value="expense">Expense</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="transactionAmount">Amount</label>
+                                <input type="number" id="transactionAmount" step="0.01" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="transactionCategory">Category</label>
+                                <select id="transactionCategory" required>
+                                    <option value="salary">Salary</option>
+                                    <option value="freelance">Freelance</option>
+                                    <option value="investment">Investment</option>
+                                    <option value="gift">Gift</option>
+                                    <option value="food">Food & Dining</option>
+                                    <option value="transportation">Transportation</option>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="shopping">Shopping</option>
+                                    <option value="utilities">Utilities</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="education">Education</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="transactionDescription">Description</label>
+                                <input type="text" id="transactionDescription" required>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary">Add Transaction</button>
+                        </form>
+                    </div>
+                    
+                    <div class="budget-card">
+                        <h3>Budget Overview</h3>
+                        <div class="budget-categories" id="budgetTabCategories">
+                            <div class="no-data">Add transactions to see budget breakdown</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="budget-card full-width">
+                    <h3>Transaction History</h3>
+                    <div class="transactions-table">
+                        <table id="transactionsTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Category</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsTableBody">
+                                <tr>
+                                    <td colspan="6" class="no-data">No transactions yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="goals" class="section">
+            <div class="container">
+                <h1 class="section-title">Financial Goals</h1>
+                
+                <div class="goals-grid">
+                    <div class="goals-card">
+                        <h3>Create New Goal</h3>
+                        <form id="goalForm" class="goal-form">
+                            <div class="form-group">
+                                <label for="goalTitle">Goal Title</label>
+                                <input type="text" id="goalTitle" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="goalAmount">Target Amount</label>
+                                <input type="number" id="goalAmount" step="0.01" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="goalCurrent">Current Amount</label>
+                                <input type="number" id="goalCurrent" step="0.01" value="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="goalDeadline">Target Date</label>
+                                <input type="date" id="goalDeadline" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="goalCategory">Category</label>
+                                <select id="goalCategory" required>
+                                    <option value="emergency">Emergency Fund</option>
+                                    <option value="vacation">Vacation</option>
+                                    <option value="house">House Down Payment</option>
+                                    <option value="car">Car Purchase</option>
+                                    <option value="education">Education</option>
+                                    <option value="retirement">Retirement</option>
+                                    <option value="investment">Investment</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary">Create Goal</button>
+                        </form>
+                    </div>
+                    
+                    <div class="goals-card">
+                        <h3>Your Goals</h3>
+                        <div class="goals-list" id="goalsList">
+                            <div class="no-data">No goals set yet. Create your first financial goal!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analytics" class="section">
+            <div class="container">
+                <h1 class="section-title">AI-Powered Financial Analytics</h1>
+
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <button class="btn-secondary" onclick="toggleCsvUpload()">
+                        <i class="fas fa-file-csv"></i> Analyze a Temporary CSV File
+                    </button>
+                </div>
+                
+                <div class="analytics-upload" id="csvAnalysisSection" style="display: none;">
+                    <div class="upload-section">
+                        <h3><i class="fas fa-file-csv"></i> Upload CSV for Analysis</h3>
+                        <div class="csv-upload-area" id="analyticsUploadArea">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <h4>Upload Your Financial Data</h4>
+                                <p>Drag and drop your CSV file here or click to browse</p>
+                                <input type="file" id="analyticsCsvInput" accept=".csv" style="display: none;">
+                                <button type="button" class="btn-secondary" onclick="document.getElementById('analyticsCsvInput').click()">
+                                    Choose CSV File
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="csv-format-info">
+                            <h5>CSV Format Requirements:</h5>
+                            <p>Your CSV should have these columns:</p>
+                            <ul>
+                                <li><strong>date</strong> - Transaction date (DD-MM-YYYY)</li>
+                                <li><strong>type</strong> - "income" or "expense"</li>
+                                <li><strong>amount</strong> - Transaction amount (numbers only)</li>
+                                <li><strong>category</strong> - Transaction category</li>
+                                <li><strong>description</strong> - Transaction description</li>
+                            </ul>
+                            <div class="csv-example">
+                                <strong>Example:</strong><br>
+                                <code>15-01-2025,income,5000,salary,Monthly Salary</code><br>
+                                <code>16-01-2025,expense,50,food,Grocery Shopping</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-controls" id="analysisControls" style="display: none;">
+                        <div class="ai-insight-card">
+                            <div class="ai-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="ai-insight-content">
+                                <h3>AI Financial Analysis</h3>
+                                <p id="aiAnalysisSummary">CSV file uploaded successfully! Click "Analyze CSV Data" to get AI-powered insights about your uploaded financial data.</p>
+                                <div class="uploaded-file-info" id="uploadedFileInfo"></div>
+                            </div>
+                            <button class="btn-analyze" onclick="performCSVAnalysis()">
+                                <i class="fas fa-brain"></i>
+                                Analyze CSV Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Spending by Category</h3>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3>Monthly Trend</h3>
+                        <canvas id="analyticsTrendChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3>Income vs Expenses</h3>
+                        <canvas id="incomeExpenseChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3>Top Spending Categories</h3>
+                        <canvas id="topCategoriesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="ai-recommendations">
+                    <h3><i class="fas fa-lightbulb"></i> AI Recommendations</h3>
+                    <div id="aiRecommendations" class="recommendations-list">
+                        <div class="no-data">Run AI analysis to get personalized recommendations</div>
+                    </div>
+                </div>
+
+                <div class="spending-alerts">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Spending Alerts</h3>
+                    <div id="spendingAlerts" class="alerts-list">
+                        <div class="no-data">No spending alerts at the moment</div>
+                    </div>
+                </div>
+
+                <div class="detailed-analysis">
+                    <h3><i class="fas fa-microscope"></i> Detailed Analysis</h3>
+                    <div class="analysis-tabs">
+                        <button class="tab-btn active" onclick="showAnalysisTab('patterns')">Spending Patterns</button>
+                        <button class="tab-btn" onclick="showAnalysisTab('savings')">Savings Opportunities</button>
+                        <button class="tab-btn" onclick="showAnalysisTab('waste')">Waste Analysis</button>
+                    </div>
+                    
+                    <div class="analysis-content">
+                        <div id="patternsTab" class="tab-content active">
+                            <div id="spendingPatterns" class="analysis-section">
+                                <div class="no-data">Run analysis to see spending patterns</div>
+                            </div>
+                        </div>
+                        
+                        <div id="savingsTab" class="tab-content">
+                            <div id="savingsOpportunities" class="analysis-section">
+                                <div class="no-data">Run analysis to find savings opportunities</div>
+                            </div>
+                        </div>
+                        
+                        <div id="wasteTab" class="tab-content">
+                            <div id="wasteAnalysis" class="analysis-section">
+                                <div class="no-data">Run analysis to identify wasteful spending</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-assistant" class="section">
+            <div class="container">
+                <h1 class="section-title">AI Financial Assistant</h1>
+                
+                <div class="ai-chat-container">
+                    <div class="chat-header">
+                        <div class="ai-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="ai-info">
+                            <h3>AI Finance Advisor</h3>
+                            <p>Ask me anything about your finances!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai-message">
+                            <div class="message-content">
+                                <p>Hello! I'm your AI Financial Assistant. I can help you with:</p>
+                                <ul>
+                                    <li>Budget planning and optimization</li>
+                                    <li>Investment advice and strategies</li>
+                                    <li>Debt management tips</li>
+                                    <li>Savings recommendations</li>
+                                    <li>Financial goal planning</li>
+                                </ul>
+                                <p>What would you like to know about your finances today?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <div class="quick-questions">
+                            <button class="quick-question" onclick="askQuickQuestion('How can I save more money?')">
+                                How can I save more?
+                            </button>
+                            <button class="quick-question" onclick="askQuickQuestion('What should I invest in?')">
+                                Investment advice
+                            </button>
+                            <button class="quick-question" onclick="askQuickQuestion('How to create a budget?')">
+                                Create a budget
+                            </button>
+                            <button class="quick-question" onclick="askQuickQuestion('Emergency fund tips')">
+                                Emergency fund
+                            </button>
+                        </div>
+                        
+                        <form id="chatForm" class="chat-form">
+                            <div class="input-group">
+                                <input type="text" id="chatInput" placeholder="Ask me anything about your finances..." required>
+                                <button type="submit" class="send-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-robot fa-spin"></i>
+            <p>AI is thinking...</p>
+        </div>
+    </div>
+
+    <div id="csvPreviewModal" class="csv-preview-modal">
+        <div class="csv-preview-content">
+            <div class="csv-preview-header">
+                <h3>Preview CSV Data</h3>
+                <button class="close-btn" onclick="closeCSVPreview()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="csvPreviewContent">
+                </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
